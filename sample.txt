@@ -1,0 +1,54 @@
+require 'rails_helper'
+require 'stripe_stub'
+require 'shopify_stub'
+require 'webmock/rspec'
+
+RSpec.describe 'Purchase flow' do
+
+  describe 'a customer makes a purchase attempt' do
+    it 'a customer visits the purchase page' do
+      stub = ShopifyStub.new.stub_get_products('Barber Shop')
+      get '/', force: true
+      expect(stub).to have_been_requested
+    end
+
+    it 'two customers visit the purchase page' do
+      stub = ShopifyStub.new.stub_get_products('Barber Shop')
+      get '/', force: true
+      get '/'
+      expect(stub).to have_been_made.once
+    end
+  end
+
+  describe 'a customer makes a purchase attempt' do
+    it 'happy path' do
+      stubs = []
+      stubs << ShopifyStub.new.stub_customer_search
+      stubs << ShopifyStub.new.stub_create_order('Main St', 'Street St', '111000', 'example.com')
+      # stubs << ShopifyStub.new.stub_update_order
+      stubs << StripeStub.new.stub_charge('3100', 'tok_444')
+
+      params = JSON.parse(IO.read(Rails.root.join('app/assets/javascripts/fixtures/purchase_request.json')))
+      post '/', params
+
+      stubs.each{|stub|
+        expect(stub).to have_been_requested
+      }
+
+      expect(response).to redirect_to(:success)
+    end
+  end
+
+  it 'a new customer is allowed to purchase' do
+    ShopifyStub.new.stub_customer_search([])
+    get '/allow', email: 'tom@example.com'
+    expect(response).to have_http_status(200)
+  end
+
+  it 'an existing customer is not allowed to purchase' do
+    ShopifyStub.new.stub_customer_search([{id: '123', email: 'tom@example.com'}])
+    get '/allow', email: 'tom@example.com'
+    expect(response).to have_http_status(403)
+  end
+
+end
