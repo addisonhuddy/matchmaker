@@ -1,8 +1,108 @@
 <br>
-<h2>Student Group Formation Tool</h2>
+<h1>Student Group Formation Tool</h1>
 
 <%= form_for @student do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :first_name %>
-  <%= f.submit :Submit %>
+<h3>Your Information</h3>
+
+  <fieldset class="form-group">
+    <%= f.label :"Gatech Class" %>
+    <%= f.select( :gatech_class, [['CS6300: Software Development & Processes', 'cs6300'],
+                           ['CS 6400: Database Systems Concepts & Design', 'cs6400']],
+                           {}, { :class => "form-control" })%>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Full Name" %>
+    <%= f.text_field :first_name, :class => "form-control", :placeholder => "Buzz Johnson" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Gatech Username" %>
+    <%= f.text_field :gatechuname, :class => "form-control", :placeholder => "yjacket3" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Gatech ID number?" %>
+    <%= f.text_field :gatechid, :class => "form-control", :placeholder => "123456789" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Preferred Email" %>
+    <%= f.text_field :email, :class => "form-control" %>
+  </fieldset>
+
+<br>
+<h3>Details</h3>
+
+  <fieldset class="form-group">
+    <%= f.label :"Learning objectives" %>
+    <%= f.text_area :learning_objectives, :class => "form-control",
+                                 :placeholder => "In no less than 100 words, describe what you hope to learn in this class.",
+                                 :rows => 4 %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Preferred Tools" %>
+    <%= f.text_area :preferred_tools, :class => "form-control",
+                                 :placeholder => "List all of your prefered programming lanuages, development tools, and commuincation tools. For example:\rjava\rpython\rvim\rhipchat\remail",
+                                 :rows => 5 %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :"Java Expertise" %>
+    <%= f.select( :java_expertise, [['Hello World...', 'novice'],
+                           ['Used it once in the real world', 'intermediate'],
+                           ['Years of experience', 'expert']],
+                           {}, { :class => "form-control" })%>
+  </fieldset>
+  <br>
+  <h3>Communication</h3>
+
+  <p>Take this Myers Briggs personality test and enter your four-letter personlity profile below.
+    <a href="http://www.humanmetrics.com/cgi-win/jtypes2.asp">Link to personality test</a>
+  </p>
+
+  <fieldset class="form-group">
+    <%= f.label :"Four Letter Personality Profile" %>
+    <%= f.text_field :myers_briggs, :class => "form-control", :placeholder => "ENTJ" %>
+  </fieldset>
+
+  <br>
+  <h3>Timming</h3>
+
+  <fieldset class="form-group">
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {},{ :class => "form-control" } %>
+  </fieldset>
+
+  <!-- When would you like to meet -->
+
+
+  <fieldset class="form-group">
+    <%= f.label :"When are you most free during the week?" %>
+    <%= f.select( :week_preferred, [['Daytime', 'daytime'],
+                           ['Afternoon', 'afternoon'],
+                           ['Evening', 'evening'],
+                           ['All Day', 'allday'],
+                           ['Not Available', 'notfree']],
+                           {}, { :class => "form-control" })%>
+
+
+  <fieldset class="form-group">
+    <%= f.label :"When are you most free during the weekend?" %>
+    <%= f.select( :weekend_preferred, [['Daytime', 'daytime'],
+                           ['Afternoon', 'afternoon'],
+                           ['Evening', 'evening'],
+                           ['All Day', 'allday'],
+                           ['Not Available', 'notfree']],
+                           {}, { :class => "form-control" })%>
+  </fieldset>
+
+  <br>
+  <%= f.submit :Submit, :class => "form-control btn btn-primary btn-sm" %>
+
+
+
+
+
 <% end %>

@@ -6,6 +6,7 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     if @student.save
+      flash[:success] = "Working on finding you the optimal group"
       redirect_to @student
     else
       render 'index'
@@ -20,6 +21,16 @@ class StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:first_name)
+    params.require(:student).permit(:first_name,
+                                    :time_zone,
+                                    :gatech_class,
+                                    :gatechuname,
+                                    :gatechid,
+                                    :email,
+                                    :learning_objectives,
+                                    :preferred_tools,
+                                    :myers_briggs,
+                                    :week_preferred,
+                                    :weekend_preferred)
   end
 end
