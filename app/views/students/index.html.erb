@@ -2,6 +2,17 @@
 <h1>Student Group Formation Tool</h1>
 
 <%= form_for @student do |f| %>
+  <% if @student.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>Errors</h4>
+      <ul>
+        <% @student.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
 <h3>Your Information</h3>
 
   <fieldset class="form-group">
