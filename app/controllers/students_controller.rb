@@ -31,6 +31,7 @@ class StudentsController < ApplicationController
                                     :preferred_tools,
                                     :myers_briggs,
                                     :week_preferred,
-                                    :weekend_preferred)
+                                    :weekend_preferred,
+                                    :java_expertise)
   end
 end

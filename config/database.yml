@@ -22,4 +22,4 @@ test:
 
 production:
   <<: *default
-  database: machmaker_production
+  database: matchmaker_production
