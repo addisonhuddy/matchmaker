@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :student do
-    first_name { Faker::Name.name }
+    name { Faker::Name.name }
     time_zone { Faker::Address.time_zone }
     gatech_class "cs6300"
     gatechuname { Faker::Internet.user_name }

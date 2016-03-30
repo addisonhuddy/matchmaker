@@ -21,7 +21,7 @@ class StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:first_name,
+    params.require(:student).permit(:name,
                                     :time_zone,
                                     :gatech_class,
                                     :gatechuname,
