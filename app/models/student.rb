@@ -16,7 +16,14 @@ class Student < ActiveRecord::Base
 
   # validates_uniqueness_of :gatechid, :email, :gatechuname
 
-  before_save :fill_week_array, :fill_weekend_array
+  before_save :fill_week_array, :fill_weekend_array, :shift_time_array
+
+  # return the number of overlaping hours two students have
+  def array_overlap_score(s)
+    week_overlap_array = s.week_array & self.week_array
+    weekend_overlap_array = s.weekend_array & self.weekend_array
+    return week_overlap_array.count + weekend_overlap_array.count
+  end
 
   private
 
@@ -42,6 +49,14 @@ class Student < ActiveRecord::Base
     elsif self.weekend_preferred == "evening"
       self.weekend_array = [20, 21, 22, 23, 0, 1]
     end
+  end
+
+  # shift the student's hours to a standardize UTC
+  def shift_time_array
+    time_shift = Time.now.in_time_zone(self.time_zone).utc_offset
+    time_shift = (time_shift/3600).round
+    self.week_array.map!    { |hour| (hour + (time_shift - 1)) % 23 }
+    self.weekend_array.map! { |hour| (hour + (time_shift - 1)) % 23 }
   end
 
 end

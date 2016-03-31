@@ -19,7 +19,7 @@ FactoryGirl.define do
 
     java_expertise { [:novice, :intermediate, :expert].sample }
     week_preferred { [:daytime, :afternoon, :evening, :allday, :notfree].sample }
-    weekend_preferred { [:daytime, :afternoon, :evening, :allday, :notfree].sample }
+    weekend_preferred { [:daytime, :afternoon, :evening, :allday].sample }
 
   end
 end
