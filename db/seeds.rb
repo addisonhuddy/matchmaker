@@ -7,6 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-200.times do
+600.times do
     FactoryGirl.create(:student)
 end

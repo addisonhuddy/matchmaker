@@ -29,25 +29,25 @@ class Student < ActiveRecord::Base
 
   def fill_week_array
     if self.week_preferred == "allday"
-      self.week_array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+      self.week_array = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0]
     elsif self.week_preferred == "daytime"
-      self.week_array =[7, 8, 9, 10, 11, 12, 13, 14, 15]
+      self.week_array =[8, 9, 10, 11, 12, 13, 14, 15]
     elsif self.week_preferred == "afternoon"
       self.week_array = [16, 15, 17, 18, 19]
     elsif self.week_preferred == "evening"
-      self.week_array = [20, 21, 22, 23, 0, 1]
+      self.week_array = [20, 21, 22, 23]
     end
   end
 
   def fill_weekend_array
     if self.weekend_preferred == "allday"
-      self.weekend_array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+      self.weekend_array = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0]
     elsif self.weekend_preferred == "daytime"
-      self.weekend_array =[7, 8, 9, 10, 11, 12, 13, 14, 15]
+      self.weekend_array =[8, 9, 10, 11, 12, 13, 14, 15]
     elsif self.weekend_preferred == "afternoon"
       self.weekend_array = [16, 15, 17, 18, 19]
     elsif self.weekend_preferred == "evening"
-      self.weekend_array = [20, 21, 22, 23, 0, 1]
+      self.weekend_array = [20, 21, 22, 23]
     end
   end
 
@@ -55,8 +55,23 @@ class Student < ActiveRecord::Base
   def shift_time_array
     time_shift = Time.now.in_time_zone(self.time_zone).utc_offset
     time_shift = (time_shift/3600).round
-    self.week_array.map!    { |hour| (hour + (time_shift - 1)) % 23 }
-    self.weekend_array.map! { |hour| (hour + (time_shift - 1)) % 23 }
+    puts self.time_zone
+    puts time_shift
+
+    puts week_preferred
+    if self.week_preferred != "allday"
+      puts week_array.to_s
+      self.week_array.map!    { |hour| (hour + (time_shift)) % 24 }
+      puts week_array.to_s
+    end
+
+    puts weekend_preferred
+    if self.weekend_preferred != "allday"
+      puts weekend_array.to_s
+      self.weekend_array.map! { |hour| (hour + (time_shift)) % 24 }
+      puts weekend_array.to_s
+    end
+
   end
 
 end

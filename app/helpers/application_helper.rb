@@ -29,13 +29,15 @@ module ApplicationHelper
     students = Student.all
     students.each do |s1|
       overlap_count = 0
-      print "#{s1.name}: "
       students.each do |s2|
-        if s1.array_overlap_score(s2) == 3
+        if s1.array_overlap_score(s2) >= 3
           overlap_count += 1
         end
       end
-      puts overlap_count
+      if overlap_count < 3
+        print "#{s1.name}: "
+        puts overlap_count
+      end
     end
   end
 end
