@@ -37,6 +37,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    ai4r (1.13)
     arel (6.0.3)
     autoprefixer-rails (6.3.3.1)
       execjs
@@ -178,6 +179,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ai4r
   bootstrap (~> 4.0.0.alpha3)
   byebug
   coffee-rails (~> 4.1.0)
