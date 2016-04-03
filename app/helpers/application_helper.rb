@@ -28,7 +28,7 @@ module ApplicationHelper
     end
   end
 
-  def cluster_teams
+  def kmeans_teams
     students = Student.select("weekend_array")
     data = []
     students.each do |s|
@@ -36,7 +36,7 @@ module ApplicationHelper
     end
     p data
     ds = DataSet.new(:data_items => data)
-    cluster = KMeans.new.build(ds, 63)
+    cluster = KMeans.new.build(ds, (data.count / 4))
 
     cluster.clusters.each_with_index do |cluster, index|
       puts "Group #{index+1}"
@@ -47,19 +47,34 @@ module ApplicationHelper
     end
   end
 
-  def count_matches
-    students = Student.all
-    students.each do |s1|
-      overlap_count = 0
-      students.each do |s2|
-        if s1.array_overlap_score(s2) >= 3
-          overlap_count += 1
-        end
+  def match_teams_by_hour
+    no_team = Student.all #TODO ActiveRecord is messing this up. This is not an arry
+    no_team.map! {|i| i.id }
+    teams =  Hash.new{|hsh,key| hsh[key] = [] }
+    team_index = 1
+
+    until no_team.count < 4
+      student = no_team.sample
+      no_team.delete(student.id)
+      h = Hash.new
+      no_team.each do |classmate|
+        h[classmate] = student.array_overlap_score(classmate)
       end
-      if overlap_count < 3
-        print "#{s1.name}: "
-        puts overlap_count
+
+      h.values.sort!
+      h.values.reverse!
+
+      team = Array.new
+      team = h.keys[0..2]
+
+      team.each do |tm|
+        no_team.delete(tm.id)
       end
+
+      team.push(student)
+      teams[team_index] = team
+
+      team_index += 1
     end
   end
 end

@@ -61,18 +61,16 @@ class Student < ActiveRecord::Base
     puts week_preferred
     if self.week_preferred != "allday"
       puts week_array.to_s
-      self.week_array.map! { |hour| (
-          hour != 0 ? (hour + (time_shift + 1 )) % 24 : 0
-        )}
+      self.week_array.map! { |hour| (hour != 0 ? (hour + (time_shift)) % 24 : 0 )}
+      self.week_array.sort!
       puts week_array.to_s
     end
 
     puts weekend_preferred
     if self.weekend_preferred != "allday"
       puts weekend_array.to_s
-      self.week_array.map! { |hour| (
-          hour != 0 ? (hour + (time_shift + 1 )) % 24 : 0
-        )}
+      self.weekend_array.map! { |hour| (hour != 0 ? (hour + (time_shift)) % 24 : 0 )}
+      self.weekend_array.sort!
       puts weekend_array.to_s
     end
 

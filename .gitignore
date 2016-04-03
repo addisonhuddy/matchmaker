@@ -18,3 +18,5 @@
 
 .ruby-version
 manifest.yml
+
+.byebug_history
