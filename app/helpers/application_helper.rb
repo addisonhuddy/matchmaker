@@ -69,12 +69,19 @@ module ApplicationHelper
       team = hs.keys[0..2]
 
       team.each do |tm|
-        no_team.delete(tm)
+        no_team.delete(tm          )
       end
 
       team.push(student)
       teams[team_index] = team
       team_index += 1
+
+      new_team = Team.create(name: "Team #{team_index - 1}")
+
+      team.each do |tm|
+        tm.update_attributes(team: new_team)
+      end
+
       p no_team.count
       p team.count
     end

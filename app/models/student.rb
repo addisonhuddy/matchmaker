@@ -1,4 +1,6 @@
 class Student < ActiveRecord::Base
+  belongs_to :team
+  
   serialize :week_array, Array
   serialize :weekend_array, Array
 

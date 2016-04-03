@@ -1,6 +1,11 @@
 require 'faker'
 
 FactoryGirl.define do
+  factory :team do
+    name "MyString"
+    common_hours "MyString"
+    student_id ""
+  end
   factory :student do
     name { Faker::Name.name }
     time_zone { Faker::Address.time_zone }

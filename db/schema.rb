@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330052151) do
+ActiveRecord::Schema.define(version: 20160403205910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20160330052151) do
     t.string   "java_expertise"
     t.string   "week_array"
     t.string   "weekend_array"
+    t.integer  "team_id"
+  end
+
+  add_index "students", ["team_id"], name: "index_students_on_team_id", using: :btree
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.string   "common_hours"
+    t.integer  "student_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
 end
