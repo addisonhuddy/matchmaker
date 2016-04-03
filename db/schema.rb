@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20160403205910) do
   create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.string   "common_hours"
-    t.integer  "student_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
