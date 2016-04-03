@@ -1,0 +1,10 @@
+<br>
+<h1>Teams</h1>
+
+<% @teams.each do |team| %>
+  <h3><%= team.name %></h3>
+  <% team.students.each do |student| %>
+    <%= student.name %>
+  <% end %>
+  <br>
+<% end %>

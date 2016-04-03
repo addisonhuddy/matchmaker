@@ -47,12 +47,13 @@ module ApplicationHelper
     end
   end
 
+  # method to randomly match students
   def match_teams_by_hour
-    no_team = Student.all.to_a #TODO ActiveRecord is messing this up. This is not an Array
+    no_team = Student.all.to_a
 
     teams =  Hash.new{|hsh,key| hsh[key] = [] }
     team_index = 1
-
+    Team.delete_all
     until no_team.count < 4
       student = no_team.sample
       no_team.delete(student)
@@ -82,8 +83,12 @@ module ApplicationHelper
         tm.update_attributes(team: new_team)
       end
 
-      p no_team.count
-      p team.count
+    end
+
+    reserve_team = Team.create(name: "Team Reserve")
+
+    no_team.each do |tm|
+      tm.update_attributes(team: reserve_team)
     end
 
     p teams.count
