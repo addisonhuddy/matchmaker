@@ -48,33 +48,39 @@ module ApplicationHelper
   end
 
   def match_teams_by_hour
-    no_team = Student.all #TODO ActiveRecord is messing this up. This is not an arry
-    no_team.map! {|i| i.id }
+    no_team = Student.all.to_a #TODO ActiveRecord is messing this up. This is not an Array
+
     teams =  Hash.new{|hsh,key| hsh[key] = [] }
     team_index = 1
 
     until no_team.count < 4
       student = no_team.sample
-      no_team.delete(student.id)
+      no_team.delete(student)
       h = Hash.new
+
       no_team.each do |classmate|
         h[classmate] = student.array_overlap_score(classmate)
       end
 
-      h.values.sort!
-      h.values.reverse!
+
+      hs = h.sort_by {|k, v| v}.reverse.to_h
 
       team = Array.new
-      team = h.keys[0..2]
+      team = hs.keys[0..2]
 
       team.each do |tm|
-        no_team.delete(tm.id)
+        no_team.delete(tm)
       end
 
       team.push(student)
       teams[team_index] = team
-
       team_index += 1
+      p no_team.count
+      p team.count
     end
+
+    p teams.count
+    p no_team.count
+
   end
 end
