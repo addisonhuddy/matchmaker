@@ -93,6 +93,5 @@ module ApplicationHelper
 
     p teams.count
     p no_team.count
-
   end
 end

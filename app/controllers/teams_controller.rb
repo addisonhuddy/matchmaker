@@ -13,6 +13,14 @@ class TeamsController < ApplicationController
     end
   end
 
+  def match_teams
+    if Team.match_teams_by_hour == 0
+      flash[:success] = "Teams Matched Successfully"
+      redirect_to teams_path
+    end
+
+  end
+
   private
 
   def team_params
