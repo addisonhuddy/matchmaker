@@ -1,6 +1,6 @@
 class Student < ActiveRecord::Base
   belongs_to :team
-  
+
   serialize :week_array, Array
   serialize :weekend_array, Array
 
@@ -25,6 +25,14 @@ class Student < ActiveRecord::Base
     week_overlap_array = s.week_array & self.week_array
     weekend_overlap_array = s.weekend_array & self.weekend_array
     return week_overlap_array.count + weekend_overlap_array.count
+  end
+
+  def self.classify_personality(p)
+    personality = ["ENFJ", "INFJ", "ENFP", "INFP",
+                   "INTJ", "ENTJ", "INTP", "ENTP",
+                   "ESFP", "ISFP", "ESFJ", "ISFJ",
+                   "ISTP", "ESTP", "ISTJ", "ESTJ"]
+    return personality.index(p)
   end
 
   private
@@ -57,25 +65,15 @@ class Student < ActiveRecord::Base
   def shift_time_array
     time_shift = Time.now.in_time_zone(self.time_zone).utc_offset
     time_shift = (time_shift/3600).round
-    puts self.time_zone
-    puts time_shift
 
-    puts week_preferred
     if self.week_preferred != "allday"
-      puts week_array.to_s
       self.week_array.map! { |hour| (hour != 0 ? (hour + (time_shift)) % 24 : 0 )}
       self.week_array.sort!
-      puts week_array.to_s
     end
 
-    puts weekend_preferred
     if self.weekend_preferred != "allday"
-      puts weekend_array.to_s
       self.weekend_array.map! { |hour| (hour != 0 ? (hour + (time_shift)) % 24 : 0 )}
       self.weekend_array.sort!
-      puts weekend_array.to_s
     end
-
   end
-
 end

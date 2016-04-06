@@ -1,4 +1,7 @@
 class Team < ActiveRecord::Base
+  include Ai4r::Data
+  include Ai4r::Clusterers
+
   has_many :students
 
 
@@ -46,6 +49,32 @@ class Team < ActiveRecord::Base
       tm.update_attributes(team: reserve_team)
     end
     return 0
+  end
+
+
+  def self.kmeans_teams
+    students = Student.all.to_a
+    data = Array.new
+
+    students.each do |student|
+      sa = Array.new
+      sa.push(student.weekend_array)
+      sa.push(student.week_array)
+      sa.push(Student.classify_personality(student.myers_briggs))
+      data.push(sa)
+    end
+
+    ds = DataSet.new(:data_items => data)
+
+    cluster = KMeans.new.build(ds, (data.count/4))
+
+    cluster.clusters.each_with_index do |cluster, index|
+      puts "Group #{index+1}"
+      cluster.data_items.each do |di|
+        puts di.to_s
+      end
+      puts "==========="
+    end
   end
 
 end

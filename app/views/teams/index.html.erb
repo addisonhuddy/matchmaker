@@ -1,6 +1,6 @@
 <br>
-<h1>Teams</h1>
-
+<h2>Teams: <%= @teams.count %> | Students: <%= @students.count %></h2>
+<%= button_to "Match", {action: "match_teams"}, {class: "btn btn-primary"} %>
 <table class="table">
   <th>Team</th>
   <th>Student</th>
@@ -16,5 +16,3 @@
     </tr>
   <% end %>
 </table>
-
-<%= button_to "Match", {action: "match_teams"}, {class: "btn btn-primary"} %>
