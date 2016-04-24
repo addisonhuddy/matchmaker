@@ -1,4 +1,4 @@
-class Team < ActiveRecord::Base
+ class Team < ActiveRecord::Base
   include Ai4r::Data
   include Ai4r::Clusterers
 
@@ -13,8 +13,12 @@ class Team < ActiveRecord::Base
     Team.delete_all
 
     until no_team.count < 4
+
       student = no_team.sample
       no_team.delete(student)
+
+
+
       h = Hash.new
 
       no_team.each do |classmate|

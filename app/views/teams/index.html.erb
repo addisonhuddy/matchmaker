@@ -11,7 +11,7 @@
     <tr>
       <td><%= team.name %></td>
       <% team.students.each do |student| %>
-        <td><%= student.name %></td>
+        <td class="<%= student.java_expertise %>"><%= student.name %></td>
       <% end %>
     </tr>
   <% end %>
